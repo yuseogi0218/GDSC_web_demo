@@ -1,0 +1,19 @@
+server:
+  servlet:
+    encoding:
+      charset: utf-8 # request data ? UTF-8? ??
+      enabled: true
+
+spring:
+  # H2-DB setting
+  datasource:
+    url: jdbc:h2:mem:testdb # h2-DB url
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  # JPA setting
+  jpa:
+    hibernate:
+      ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl # ???? ?? ?? ??? ??? ??? ?????.
