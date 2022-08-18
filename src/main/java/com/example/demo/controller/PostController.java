@@ -18,13 +18,13 @@ public class PostController {
     private final PostService postService;
 
     @ApiOperation(value = "게시글을 등록", notes = "게시글을 등록합니다.")
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<?> save(@RequestBody WritePostReq writePostReq) {
         return new ResponseEntity<>(postService.저장하기(writePostReq), HttpStatus.OK);
     }
 
     @ApiOperation(value = "게시글 전체 조회", notes = "게시글을 전체 조회합니다.")
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<?> findAll() {
         // ? 인 이유 : 경우에 따라서 다른 결과값을 리턴해줄 수 있게
 
