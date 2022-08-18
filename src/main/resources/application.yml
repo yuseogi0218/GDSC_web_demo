@@ -22,3 +22,6 @@ spring:
       ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl # ???? ?? ?? ??? ??? ??? ?????.
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
