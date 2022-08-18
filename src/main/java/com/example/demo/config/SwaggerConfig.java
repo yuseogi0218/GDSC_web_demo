@@ -25,8 +25,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Practice Swagger")
-                .description("practice swagger config")
+                .title("GDSC API Docs")
+                .description("API Document for GDSC Web Blog")
                 .version("1.0")
                 .build();
     }
