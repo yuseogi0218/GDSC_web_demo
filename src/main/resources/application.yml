@@ -1,7 +1,7 @@
 server:
   servlet:
     encoding:
-      charset: utf-8 # request data ? UTF-8? ??
+      charset: utf-8 # request data to UTF-8
       enabled: true
 
 spring:
@@ -21,7 +21,8 @@ spring:
     hibernate:
       ddl-auto: create
       naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl # ???? ?? ?? ??? ??? ??? ?????.
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl # naming strategy -> table name is same with class name
+    show-sql: true
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

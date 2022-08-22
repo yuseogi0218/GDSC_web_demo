@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.Post;
-import com.example.demo.domain.PostRepository;
+import com.example.demo.repository.PostRepository;
 import com.example.demo.dto.post.WritePostReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

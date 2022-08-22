@@ -1,5 +1,6 @@
-package com.example.demo.domain;
+package com.example.demo.repository;
 
+import com.example.demo.domain.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 // @Repository 적어야 스프링 IOC에 빈으로 등록이 되는데,
