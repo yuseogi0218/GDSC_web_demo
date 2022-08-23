@@ -9,6 +9,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -29,19 +32,93 @@ public class PostServiceUnitTest {
         // BODMocikto 방식
         // given
         Post post = new Post();
-        post.setTitle("게시글 제목");
-        post.setContent("게시글 내용");
+        post.setTitle("스프링부트 따라하기");
+        post.setContent("스프링부트 따라하기 내용");
 
         // stub - 동작 지정
         when(postRepository.save(post)).thenReturn(post);
 
         // test execute
         Post postEntity = postService.저장하기(WritePostReq.builder()
-                .title("게시글 제목")
-                .content("게시글 내용")
+                .title("스프링부트 따라하기")
+                .content("스프링부트 따라하기 내용")
                 .build());
 
         // then
-        assertEquals(postEntity, post);
+        assertEquals(post, postEntity); // expected , actual
     }
+
+    @Test
+    public void 한건가져오기_테스트() {
+        // given
+        Long id = 1L;
+        Post post = new Post();
+        post.setId(id);
+        post.setTitle("스프링부트 따라하기");
+        post.setContent("스프링부트 따라하기 내용");
+
+        // stub - 동작 지정
+        when(postRepository.findById(id)).thenReturn(java.util.Optional.of(post));
+
+        // when
+        Post postEntity = postService.한건가져오기(id);
+
+        // then
+        assertEquals(post, postEntity);
+    }
+
+    @Test
+    public void 모두가져오기_테스트() {
+        // given
+        List<Post> postList = new ArrayList<>();
+        postList.add(new Post(1L, "스프링부트 따라하기", "스프링부트 따라하기 내용"));
+        postList.add(new Post(2L, "리액트 따라하기", "리액트 따라하기 내용"));
+
+        // stub - 동작 지정
+        when(postRepository.findAll()).thenReturn(postList);
+
+        // when
+        List<Post> postEntityList = postService.모두가져오기();
+
+        // then
+        assertEquals(postList, postEntityList);
+    }
+
+    @Test
+    public void 수정하기_테스트() {
+        // given
+        Long id = 1L;
+
+        Post post = new Post();
+        post.setId(id);
+        post.setTitle("스프링부트 따라하기");
+        post.setContent("스프링부트 따라하기 내용");
+
+        WritePostReq writePostReq = WritePostReq.builder()
+                .title("스프링부트 또 따라하기")
+                .content("스프링부트 또 따라하기 내용").build();
+
+        // stub - 동작 지정
+        when(postRepository.findById(1L)).thenReturn(java.util.Optional.of(post));
+
+        // when
+        Post postEntity = postService.수정하기(id, writePostReq);
+
+        // then
+        assertEquals("스프링부트 또 따라하기", postEntity.getTitle());
+        assertEquals("스프링부트 또 따라하기 내용", postEntity.getContent());
+
+    }
+
+    // 예외 처리 테스트?
+    @Test
+    public void 삭제하기_테스트() {
+        // given
+        Long id = 1L;
+
+        // when
+
+        // then
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.example.demo.web;
+package com.example.demo.controller;
 
 import com.example.demo.domain.Post;
 import com.example.demo.dto.post.WritePostReq;

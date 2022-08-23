@@ -1,4 +1,4 @@
-package com.example.demo.web;
+package com.example.demo.controller;
 
 import com.example.demo.domain.Post;
 import com.example.demo.repository.PostRepository;
@@ -28,6 +28,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 // 통합 테스트(모든 Bean 들을 똑같이 IoC에 올리고 테스트 하는 것)
+/**
+ * 통합 테스트 하는 법
+ * 단점 : 모든 빈이 다 로드되기 때문에 통합 테스트가 가능하지만 느림!!
+ * 장점 : 실제 서비스와 가장 유사하게 테스트 가능.
+ * 팁 : SpringBootTest(class= {PostController.class, PostService.class, PostRepository.class}) 이렇게 필요한 빈만 올릴 수 도 있음.
+ */
 @Transactional // 각각의 테스트 함수가 종료될 때마다 Transaction 을 rollback 해줌 - 각각의 메서드의 독립적인 테스트를 보장
 // 데이터는 삭제되지만, autoincrement 로 설정한 숫자 정책은 초기화 되지 않음
 @AutoConfigureMockMvc // mock 을 메모리에 띄워 줌 (IoC에 등록해줌)
@@ -52,7 +58,6 @@ public class PostControllerIntegreTest {
     @BeforeEach // 모든 테스트 이전에 실행 됨
     public void init() {
         // 테이블 autoincrement 초기화
-
         // H2
         entityManager.createNativeQuery("ALTER TABLE post ALTER COLUMN id RESTART WITH 1").executeUpdate();
         // MySQL - entityManager.createNativeQuery("ALTER TABLE post AUTO_INCREMENT =1").executeUpdate();
@@ -140,7 +145,7 @@ public class PostControllerIntegreTest {
         // data 생성
         List<Post> postList = new ArrayList<>();
         postList.add(new Post(null, "스프링부트 따라하기", "스프링부트 따라하기 내용"));
-        postList.add(new Post(null, "리액트 따라하기", "리액트 따라하기 내요"));
+        postList.add(new Post(null, "리액트 따라하기", "리액트 따라하기 내용"));
 
         postRepository.saveAll(postList);
 

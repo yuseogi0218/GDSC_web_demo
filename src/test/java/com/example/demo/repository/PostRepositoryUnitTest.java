@@ -1,19 +1,20 @@
 package com.example.demo.repository;
 
 import com.example.demo.domain.Post;
-import com.example.demo.repository.PostRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 // 단위 테스트 (Repository) - DB 관련된 Bean이 IoC에 등록되면 됨
 @Slf4j
@@ -26,6 +27,17 @@ public class PostRepositoryUnitTest {
     @Autowired
     private PostRepository postRepository;
 
+    @Autowired
+    private EntityManager entityManager;
+
+    @BeforeEach
+    public void init() {
+        // 테이블 autoincrement 초기화
+        // H2
+        entityManager.createNativeQuery("ALTER TABLE post ALTER COLUMN id RESTART WITH 1").executeUpdate();
+        // MySQL - entityManager.createNativeQuery("ALTER TABLE post AUTO_INCREMENT =1").executeUpdate();
+    }
+
     @Test
     public void save_테스트() {
         // given
@@ -36,6 +48,27 @@ public class PostRepositoryUnitTest {
 
         // then
         assertEquals("게시글 제목", postEntity.getTitle());
+    }
+
+    @Test
+    public void findById_테스트() {
+        // given
+        postRepository.saveAll(
+                Arrays.asList(
+                        new Post(1L, "스프링부트 따라하기", "스프링부트 따라하기 내용"),
+                        new Post(2L, "리엑트 따라하기", "리엑트 따라하기 내용")
+                )
+        );
+        Long id = 1L;
+
+        // when
+        Optional<Post> postEntity = postRepository.findById(id);
+
+        // then
+        assertTrue(postEntity.isPresent());
+        assertEquals(1L, postEntity.get().getId());
+        assertEquals("스프링부트 따라하기", postEntity.get().getTitle());
+
     }
 
     @Test
@@ -52,8 +85,27 @@ public class PostRepositoryUnitTest {
         List<Post> postEntityList = postRepository.findAll();
 
         // then
-        log.info("postEntityList : "+postEntityList.size() );
         assertNotEquals(0, postEntityList.size());
         assertEquals(2, postEntityList.size());
+    }
+
+    @Test
+    public void deleteById_테스트() {
+        // given
+        postRepository.saveAll(
+                Arrays.asList(
+                        new Post(1L, "스프링부트 따라하기", "스프링부트 따라하기 내용"),
+                        new Post(2L, "리엑트 따라하기", "리엑트 따라하기 내용")
+                )
+        );
+        Long id = 1L;
+
+
+        // when
+        postRepository.deleteById(id);
+        Optional<Post> postEntity = postRepository.findById(id);
+
+        // then
+        assertTrue(postEntity.isEmpty());
     }
 }
