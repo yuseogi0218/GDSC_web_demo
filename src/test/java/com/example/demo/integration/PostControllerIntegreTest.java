@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.integration;
 
 import com.example.demo.domain.Post;
 import com.example.demo.repository.PostRepository;
@@ -129,7 +129,7 @@ public class PostControllerIntegreTest {
 
         // when
         ResultActions resultAction = mockMvc.perform(get("/post/{id}", id)
-                .accept(MediaType.APPLICATION_JSON_UTF8));
+                .accept(MediaType.APPLICATION_JSON));
 
         // then
         resultAction
@@ -137,6 +137,23 @@ public class PostControllerIntegreTest {
                 .andExpect(jsonPath("$.title").value("스프링부트 따라하기"))
                 .andDo(MockMvcResultHandlers.print());
 
+    }
+
+    @Test
+    public void findById_fail_테스트() throws Exception {
+        // given
+        Long id = 1L;
+
+        // when
+        ResultActions resultAction = mockMvc.perform(get("/post/{id}", id)
+                .accept(MediaType.APPLICATION_JSON));
+
+        // then
+        resultAction
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.code").value("Item Not Found"))
+                .andExpect(jsonPath("$.message").value("id를 확인해주세요!!"))
+                .andDo(MockMvcResultHandlers.print());
     }
 
     @Test

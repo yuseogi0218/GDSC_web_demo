@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.unit.controller;
 
 import com.example.demo.domain.Post;
 import com.example.demo.dto.post.WritePostReq;
@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -91,15 +92,15 @@ public class PostControllerUnitTest {
     @Test
     public void findById_테스트() throws Exception{
         // given
-        // stub 생성
         Long id = 1L;
 
-        when(postService.한건가져오기(1L)).thenReturn(new Post(1L, "스프링부트 따라하기", "스프링부트 따라하기 내용"));
+        // stub 생성
+        when(postService.한건가져오기(id)).thenReturn(new Post(1L, "스프링부트 따라하기", "스프링부트 따라하기 내용"));
 
 
         // when
         ResultActions resultAction = mockMvc.perform(get("/post/{id}", id)
-                .accept(MediaType.APPLICATION_JSON_UTF8));
+                .accept(MediaType.APPLICATION_JSON));
 
         // then
         resultAction
@@ -107,6 +108,25 @@ public class PostControllerUnitTest {
                 .andExpect(jsonPath("$.title").value("스프링부트 따라하기"))
                 .andDo(MockMvcResultHandlers.print());
 
+    }
+
+    @Test
+    public void findById_fail_테스트() throws Exception {
+        // given
+        Long id = 1L;
+
+        when(postService.한건가져오기(id)).thenThrow(new NoSuchElementException("id를 확인해주세요!!"));
+
+        // when
+        ResultActions resultActions = mockMvc.perform(get("/post/{id}", id)
+                .accept(MediaType.APPLICATION_JSON));
+
+        // then
+        resultActions
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.code").value("Item Not Found"))
+                .andExpect(jsonPath("$.message").value("id를 확인해주세요!!"))
+                .andDo(MockMvcResultHandlers.print());
     }
 
     @Test

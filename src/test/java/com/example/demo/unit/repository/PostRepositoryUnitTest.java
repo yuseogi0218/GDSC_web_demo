@@ -1,6 +1,7 @@
-package com.example.demo.repository;
+package com.example.demo.unit.repository;
 
 import com.example.demo.domain.Post;
+import com.example.demo.repository.PostRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,6 +52,21 @@ public class PostRepositoryUnitTest {
     }
 
     @Test
+    public void saveAll_테스트() {
+        // given
+        List<Post> postList = Arrays.asList(
+                new Post(1L, "스프링부트 따라하기", "스프링부트 따라하기 내용"),
+                new Post(2L, "리엑트 따라하기", "리엑트 따라하기 내용")
+        );
+        // & when
+        List<Post> postEntityList = postRepository.saveAll(postList);
+
+        // then
+        assertArrayEquals(postEntityList.toArray(), postList.toArray());
+
+    }
+
+    @Test
     public void findById_테스트() {
         // given
         postRepository.saveAll(
@@ -69,6 +85,18 @@ public class PostRepositoryUnitTest {
         assertEquals(1L, postEntity.get().getId());
         assertEquals("스프링부트 따라하기", postEntity.get().getTitle());
 
+    }
+
+    @Test
+    public void findById_empty_테스트() {
+        // given
+        Long id = 1L;
+
+        // when
+        Optional<Post> postEntity = postRepository.findById(id);
+
+        // then
+        assertTrue(postEntity.isEmpty());
     }
 
     @Test

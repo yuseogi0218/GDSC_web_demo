@@ -4,10 +4,12 @@ import com.example.demo.domain.Post;
 import com.example.demo.repository.PostRepository;
 import com.example.demo.dto.post.WritePostReq;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor // final 이 붙은 변수 생성자 자동 생성 : DI 자동 수행
 @Service // Bean 에 등록 : 기능 정의, Transaction 관리 가능 (즉, 다수의 repository 의 함수를 호출하여 전체 흐름을 관리한다.)
@@ -24,7 +26,7 @@ public class PostService {
     @Transactional(readOnly = true) // JPA는 변경 감지라는 내부 기능 off (성능 감소 방지), update 시 정합성을 유지 | insert의 유령데이터현상(팬텀현상) 못막음
     public Post 한건가져오기(Long id) {
         return postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("id를 확인해주세요!!"));
+                .orElseThrow(() -> new NoSuchElementException("id를 확인해주세요!!"));
     }
 
     @Transactional(readOnly = true)
@@ -36,7 +38,7 @@ public class PostService {
     public Post 수정하기(Long id, WritePostReq writePostReq) {
         // dirty check  후 update
         Post postEntity = postRepository.findById(id)
-                .orElseThrow(()->new IllegalArgumentException("id를 확인해주세요!!")); // 영속화 (Book 오브젝트) : 스프링 메모리 공간(영속성 컨텍스트)에 해당 객체(인스턴스)를 보유하고 있음
+                .orElseThrow(()->new NoSuchElementException("id를 확인해주세요!!")); // 영속화 (Book 오브젝트) : 스프링 메모리 공간(영속성 컨텍스트)에 해당 객체(인스턴스)를 보유하고 있음
 
         postEntity.setTitle(writePostReq.getTitle());
         postEntity.setContent(writePostReq.getContent());
@@ -46,7 +48,12 @@ public class PostService {
 
     @Transactional
     public String 삭제하기(Long id) {
-        postRepository.deleteById(id); // 예외 처리는 나중에 관리
+        try {
+            postRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new NoSuchElementException("id를 확인해주세요!!");
+        }
+
         return "ok";
     }
 
