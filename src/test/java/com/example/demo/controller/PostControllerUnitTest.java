@@ -42,14 +42,14 @@ public class PostControllerUnitTest {
     public void save_테스트() throws Exception {
         // given (테스트를 하기 위한 준비)
         WritePostReq writePostReq = WritePostReq.builder()
-                .title("스프링 따라하기")
-                .content("스프링 따라하기 내용")
+                .title("스프링부트 따라하기")
+                .content("스프링부트 따라하기 내용")
                 .build();
         // Object 를 JSON 으로 변경해주는 함수
         String content = new ObjectMapper().writeValueAsString(writePostReq);
 
         // stub (미리 행동을 지정함) - postService 는 가짜 이기 때문에 제대로 실행되지 않기 때문에 - controller 만 신경쓰기 때문에 가능
-        when(postService.저장하기(writePostReq)).thenReturn(new Post(1L, "스프링 따라하기", "스프링 따라하기 내용"));
+        when(postService.저장하기(writePostReq)).thenReturn(new Post(1L, "스프링부트 따라하기", "스프링부트 따라하기 내용"));
 
         // when (테스트 실행)
         ResultActions resultAction = mockMvc.perform(post("/post")
@@ -60,8 +60,8 @@ public class PostControllerUnitTest {
         // then (검증)
         resultAction
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.title").value("스프링 따라하기")) // jsonPath : json 에서 변수로 결과 받아옴
-                .andExpect(jsonPath("$.content").value("스프링 따라하기 내용")) // $ 는 전체를 뜻함, . 은 구분자
+                .andExpect(jsonPath("$.title").value("스프링부트 따라하기")) // jsonPath : json 에서 변수로 결과 받아옴
+                .andExpect(jsonPath("$.content").value("스프링부트 따라하기 내용")) // $ 는 전체를 뜻함, . 은 구분자
                 .andDo(MockMvcResultHandlers.print()); // 결과 출력
 
     }
@@ -72,7 +72,7 @@ public class PostControllerUnitTest {
         // stub 생성
         List<Post> postList = new ArrayList<>();
         postList.add(new Post(1L, "스프링부트 따라하기", "스프링부트 따라하기 내용"));
-        postList.add(new Post(2L, "리액트 따라하기", "리액트 따라하기 내요"));
+        postList.add(new Post(2L, "리액트 따라하기", "리액트 따라하기 내용"));
 
         when(postService.모두가져오기()).thenReturn(postList);
 
