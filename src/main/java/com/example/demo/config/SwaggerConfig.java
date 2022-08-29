@@ -17,7 +17,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.OAS_30)
                 .useDefaultResponseMessages(false)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.example.demo.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.demo.controller")) // api 패키지 설정
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo());
@@ -25,9 +25,9 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("GDSC API Docs")
-                .description("API Document for GDSC Web Blog")
-                .version("1.0")
+                .title("GDSC API Docs") // API 제목
+                .description("API Document for GDSC Web Blog") // API 설명
+                .version("1.0") // API version
                 .build();
     }
 

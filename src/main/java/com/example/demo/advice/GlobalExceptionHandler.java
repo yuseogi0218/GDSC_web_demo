@@ -11,6 +11,7 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    // 특정 예외 클래스 발생시 실행되도록 설정
     @ExceptionHandler({NoSuchElementException.class})
     protected ResponseEntity<?> handleNoSuchElementFoundException(NoSuchElementException e) {
         final ErrorResponse errorResponse = ErrorResponse.builder()

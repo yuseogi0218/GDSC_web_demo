@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/post")
-@RestController
+@RequestMapping("/post") // 공통적인 url은 class에 @RequestMapping으로 설정해준다.
+@RestController // @Controller + @ResponseBody (Java 객체를 HTTP 요청의 Body 내용으로 매핑하여 반환한다.)
 public class PostController {
 
     private final PostService postService;
 
-    @ApiOperation(value = "게시글을 등록", notes = "게시글을 등록합니다.")
+    @ApiOperation(value = "게시글을 등록", notes = "게시글을 등록합니다.") // Swagger 설명 설정
     @PostMapping("")
     public ResponseEntity<?> save(@RequestBody WritePostReq writePostReq) {
         return new ResponseEntity<>(postService.저장하기(writePostReq), HttpStatus.CREATED);

@@ -1,14 +1,18 @@
 package com.example.demo.dto.error;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
-@Builder
+@Getter
 public class ErrorResponse {
 
     private String code;
 
     private String message;
 
+    @Builder
+    public ErrorResponse(String code, String message) {
+        this.code = code;
+        this.message = message;
+    }
 }
