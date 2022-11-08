@@ -2,7 +2,6 @@ package com.example.demo.unit.repository;
 
 import com.example.demo.domain.Post;
 import com.example.demo.repository.PostRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 // 단위 테스트 (Repository) - DB 관련된 Bean이 IoC에 등록되면 됨
-@Slf4j
 @Transactional
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY) // 내장 DB (가짜 DB)로 테스트를 수행 - 단위 테스트
 // replace = Replace.NONE : 실제 DB로 테스트 - 통합 테스트

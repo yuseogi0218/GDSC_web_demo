@@ -4,7 +4,6 @@ import com.example.demo.domain.Post;
 import com.example.demo.dto.post.WritePostReq;
 import com.example.demo.service.PostService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 // 단위 테스트(Controller 관련 로직만 띄우기) - Filter, ControllerAdvice
-@Slf4j
 @WebMvcTest // -> @ExtendWith(SpringExtension.class) - 스프링 환경 확장시 사용하는 애노테이션 - Spring 에서 JUnit5 에서 테스트 할때 필수
 // @RunWith(SpringRunner.class) - Junit4 에서 테스트 할때 필수
 public class PostControllerUnitTest {

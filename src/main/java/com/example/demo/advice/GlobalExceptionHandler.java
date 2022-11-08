@@ -13,7 +13,7 @@ public class GlobalExceptionHandler {
 
     // 특정 예외 클래스 발생시 실행되도록 설정
     @ExceptionHandler({NoSuchElementException.class})
-    protected ResponseEntity<?> handleNoSuchElementFoundException(NoSuchElementException e) {
+    protected ResponseEntity<ErrorResponse> handleNoSuchElementFoundException(NoSuchElementException e) {
         final ErrorResponse errorResponse = ErrorResponse.builder()
                 .code("Item Not Found")
                 .message(e.getMessage()).build();
