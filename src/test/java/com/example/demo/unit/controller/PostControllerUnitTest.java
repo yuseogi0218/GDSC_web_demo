@@ -5,6 +5,7 @@ import com.example.demo.dto.post.WritePostReq;
 import com.example.demo.service.PostService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -33,7 +34,7 @@ public class PostControllerUnitTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean // IoC 환경에 해당 가짜 빈이 등록된다.
+    @MockBean // IoC 환경에 해당 가짜 빈이 등록된다. - Spring 환격을 사용하였기 때문에, 빈으로 등록해주어야 한다.
     private PostService postService;
 
     // BDDMockito 패턴 - given(), when(), then() 함수 지원 - Mockito 를 확장하여 만든 라이브러리

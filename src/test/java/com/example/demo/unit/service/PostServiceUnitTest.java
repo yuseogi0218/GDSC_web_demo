@@ -19,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-// 단위 테스트 (Service) - Service 관련된 Bean이 IoC에 등록되면장
-@ExtendWith(MockitoExtension.class)
+// 단위 테스트 (Service) - Service 관련된 Bean 만 IoC에 등록되면됨
+@ExtendWith(MockitoExtension.class) // Mockito 환경으로 실행 -> @Mock
 public class PostServiceUnitTest {
 
     @InjectMocks // (PostService 객체가 만들어질때) 해당 파일에 @Mock로 등록된 모든 애들을 주입 받는다.

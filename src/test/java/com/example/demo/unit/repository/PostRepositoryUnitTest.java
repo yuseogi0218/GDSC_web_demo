@@ -39,13 +39,13 @@ public class PostRepositoryUnitTest {
 
     @Test
     public void save_테스트() {
-        // given
+        // given - 주어진 상황 (Post 데이터)
         Post post = new Post(null, "스프링부트 따라하기", "스프링부트 따라하기 내용");
 
-        // when
+        // when - 특정 행동 (Post 데이터 저장)
         Post postEntity = postRepository.save(post);
 
-        // then
+        // then - 결과 (저장 결과의 제목 확인)
         assertEquals("스프링부트 따라하기", postEntity.getTitle());
     }
 
